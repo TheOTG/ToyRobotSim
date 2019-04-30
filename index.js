@@ -1,8 +1,13 @@
 const fs = require('fs')
 
 let table = []
-let direction = 'NORTH'
-let position = [0, 4]
+
+let robot = {
+  direction: 'NORTH',
+  position: [0, 4]
+}
+
+let isPlace = false
 
 for(let i = 0; i < 5; i ++) {
   let temp = [0, 0, 0, 0, 0]
@@ -18,40 +23,45 @@ for(let i = 0; i < commands.length; i++) {
   const splitCommand = commands[i].split(' ')
   switch(splitCommand[0]) {
     case 'PLACE':
+      isPlace = true
       const initialPos = splitCommand[1].split(',')
-      position[0] = initialPos[0]
-      position[1] = 4 - initialPos[1]
-      direction = initialPos[2]
+      robot.position[0] = initialPos[0]
+      robot.position[1] = 4 - initialPos[1]
+      robot.direction = initialPos[2]
       break
     case 'LEFT':
-      direction = direction === 'NORTH' ? 'WEST' : 
-                  direction === 'WEST' ? 'SOUTH' : 
-                  direction === 'SOUTH' ? 'EAST' : 'NORTH'
+      if(!isPlace) break
+      robot.direction = robot.direction === 'NORTH' ? 'WEST' : 
+                        robot.direction === 'WEST' ? 'SOUTH' : 
+                        robot.direction === 'SOUTH' ? 'EAST' : 'NORTH'
       break
     case 'RIGHT':
-      direction = direction === 'NORTH' ? 'WEST' : 
-                  direction === 'WEST' ? 'SOUTH' : 
-                  direction === 'SOUTH' ? 'EAST' : 'NORTH'
+      if(!isPlace) break
+      robot.direction = robot.direction === 'NORTH' ? 'WEST' : 
+                        robot.direction === 'WEST' ? 'SOUTH' : 
+                        robot.direction === 'SOUTH' ? 'EAST' : 'NORTH'
       break
     case 'MOVE':
-      switch(direction) {
+      if(!isPlace) break
+      switch(robot.direction) {
         case 'NORTH':
-          position[1]--
+          if(robot.position[1] !== 0) robot.position[1]--
           break
         case 'EAST':
-          position[0]++
+          if(robot.position[0] !== 4) robot.position[0]++
           break
         case 'SOUTH':
-          position[1]++
+          if(robot.position[1] !== 4) robot.position[1]++
           break
         case 'WEST':
-          position[0]--
+          if(robot.position[0] !== 0) robot.position[0]--
           break
       }
       break
     case 'REPORT':
-      let yPos = 4 - position[1]
-      console.log(`${position[0]},${yPos},${direction}`)
+      if(!isPlace) break
+      let yPos = 4 - robot.position[1]
+      console.log(`${robot.position[0]},${yPos},${robot.direction}`)
       break
   }
 }
