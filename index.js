@@ -1,18 +1,11 @@
 const fs = require('fs')
 
-let table = []
-
 let robot = {
   direction: 'NORTH',
   position: [0, 4]
 }
 
 let isPlace = false
-
-for(let i = 0; i < 5; i ++) {
-  let temp = [0, 0, 0, 0, 0]
-  table.push(temp)
-}
 
 const readCommands = fs.readFileSync('./input.txt', 'utf-8')
 const commands = readCommands.split('\n')
@@ -23,11 +16,13 @@ for(let i = 0; i < commands.length; i++) {
   const splitCommand = commands[i].split(' ')
   switch(splitCommand[0]) {
     case 'PLACE':
-      isPlace = true
       const initialPos = splitCommand[1].split(',')
-      robot.position[0] = initialPos[0]
-      robot.position[1] = 4 - initialPos[1]
-      robot.direction = initialPos[2]
+      if(initialPos[0] < 5 && initialPos[0] > -1 && initialPos[1] < 5 && initialPos[1] > -1) {
+        isPlace = true
+        robot.position[0] = initialPos[0]
+        robot.position[1] = 4 - initialPos[1]
+        robot.direction = initialPos[2]
+      }
       break
     case 'LEFT':
       if(!isPlace) break
