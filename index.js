@@ -32,9 +32,9 @@ for(let i = 0; i < commands.length; i++) {
       break
     case 'RIGHT':
       if(!isPlace) break
-      robot.direction = robot.direction === 'NORTH' ? 'WEST' : 
-                        robot.direction === 'WEST' ? 'SOUTH' : 
-                        robot.direction === 'SOUTH' ? 'EAST' : 'NORTH'
+      robot.direction = robot.direction === 'NORTH' ? 'EAST' : 
+                        robot.direction === 'EAST' ? 'SOUTH' : 
+                        robot.direction === 'SOUTH' ? 'WEST' : 'NORTH'
       break
     case 'MOVE':
       if(!isPlace) break
